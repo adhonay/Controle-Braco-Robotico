@@ -1,0 +1,7 @@
+{
+  "name": "ControlRobotic",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
