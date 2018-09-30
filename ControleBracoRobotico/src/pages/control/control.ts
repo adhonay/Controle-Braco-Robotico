@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
+// import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 import { AlertController } from 'ionic-angular';
+// import { NgModel } from '@angular/forms';
 
 /**
  * Generated class for the ControlPage page.
@@ -17,23 +18,90 @@ import { AlertController } from 'ionic-angular';
 })
 export class ControlPage {
 
+ cintura: number;
+ ombro: number;
+ cotovelo: number;
+ pulso_bd: number;
+ pulso_g: number;
+ garra: number;
+ velocidade: number;
+ RadioOpen: boolean;
+
+  onChange(ev: any) {
+    console.log('Changed', ev);
+  }
+
   // ,public bluetoothSerial: BluetoothSerial
-  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, bluetoothSerial: BluetoothSerial) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ControlPage');
   }
 
+  MostrarVelocidade(){
+    var v = this.velocidade;
 
-  enviarDados() {
-    let alert = this.alertCtrl.create({
-      title: 'Adhonay',
-      subTitle: 'teste',
-      buttons: ['sair']
-    });
-    alert.present();
+    if(v != null){
+      if(v == 1){
+          return "Lenta";
+      }else if (v == 2){
+         return "Média";
+      }else{
+        return "Rápida";
+      }
+    }else{
+      return "";
+    }
   }
+
+  VelocidadeVal() {
+    
+    let alert = this.alertCtrl.create();
+    alert.setTitle('Selecione a Velocidade:');
+
+    alert.addInput({
+      type: 'radio',
+      label: 'Lenta',
+      value: '1',
+      checked: true
+    });
+
+    alert.addInput({
+      type: 'radio',
+      label: 'Media',
+      value: '2'
+    });
+
+    alert.addInput({
+      type: 'radio',
+      label: 'Rapida',
+      value: '3'
+    });
+
+
+    alert.addButton('Cancel');
+    alert.addButton({
+      text: 'Ok',
+      handler: data => {
+        console.log('Radio data:', data);
+        this.RadioOpen = false;
+        this.velocidade = data;
+      }
+    });
+
+    alert.present().then(() => {
+      this.RadioOpen = true;
+    });
+  }
+
+  ConectarBlu(){
+
+
+  }
+
+
+
 
   enviarDados2() {
     

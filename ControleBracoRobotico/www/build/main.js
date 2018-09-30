@@ -60,7 +60,7 @@ var TabsPage = /** @class */ (function () {
         this.tab2Root = __WEBPACK_IMPORTED_MODULE_1__control_control__["a" /* ControlPage */];
     }
     TabsPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"D:\Users\I$ync\Downloads\ControleBracoRobotico-master\ControleBracoRobotico\src\pages\tabs\tabs.html"*/'<ion-tabs>\n  <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>\n  <ion-tab [root]="tab2Root" tabTitle="Control" tabIcon="md-cog"></ion-tab>\n  \n</ion-tabs>\n'/*ion-inline-end:"D:\Users\I$ync\Downloads\ControleBracoRobotico-master\ControleBracoRobotico\src\pages\tabs\tabs.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"D:\Users\I$ync\Documents\ROBOTICA\ControleBracoRobotico-master\Controle-Braco-Robotico\Controle-Braco-Robotico\ControleBracoRobotico\src\pages\tabs\tabs.html"*/'<ion-tabs>\n  <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>\n  <ion-tab [root]="tab2Root" tabTitle="Control" tabIcon="md-cog"></ion-tab>\n  \n</ion-tabs>\n'/*ion-inline-end:"D:\Users\I$ync\Documents\ROBOTICA\ControleBracoRobotico-master\Controle-Braco-Robotico\Controle-Braco-Robotico\ControleBracoRobotico\src\pages\tabs\tabs.html"*/
         }),
         __metadata("design:paramtypes", [])
     ], TabsPage);
@@ -78,7 +78,6 @@ var TabsPage = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ControlPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_bluetooth_serial__ = __webpack_require__(270);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -90,8 +89,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+// import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 
-
+// import { NgModel } from '@angular/forms';
 /**
  * Generated class for the ControlPage page.
  *
@@ -100,21 +100,68 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  */
 var ControlPage = /** @class */ (function () {
     // ,public bluetoothSerial: BluetoothSerial
-    function ControlPage(navCtrl, navParams, alertCtrl, bluetoothSerial) {
+    function ControlPage(navCtrl, navParams, alertCtrl) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.alertCtrl = alertCtrl;
     }
+    ControlPage.prototype.onChange = function (ev) {
+        console.log('Changed', ev);
+    };
     ControlPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad ControlPage');
     };
-    ControlPage.prototype.enviarDados = function () {
-        var alert = this.alertCtrl.create({
-            title: 'Adhonay',
-            subTitle: 'teste',
-            buttons: ['sair']
+    ControlPage.prototype.MostrarVelocidade = function () {
+        var v = this.velocidade;
+        if (v != null) {
+            if (v == 1) {
+                return "Lenta";
+            }
+            else if (v == 2) {
+                return "Média";
+            }
+            else {
+                return "Rápida";
+            }
+        }
+        else {
+            return "";
+        }
+    };
+    ControlPage.prototype.VelocidadeVal = function () {
+        var _this = this;
+        var alert = this.alertCtrl.create();
+        alert.setTitle('Selecione a Velocidade:');
+        alert.addInput({
+            type: 'radio',
+            label: 'Lenta',
+            value: '1',
+            checked: true
         });
-        alert.present();
+        alert.addInput({
+            type: 'radio',
+            label: 'Media',
+            value: '2'
+        });
+        alert.addInput({
+            type: 'radio',
+            label: 'Rapida',
+            value: '3'
+        });
+        alert.addButton('Cancel');
+        alert.addButton({
+            text: 'Ok',
+            handler: function (data) {
+                console.log('Radio data:', data);
+                _this.RadioOpen = false;
+                _this.velocidade = data;
+            }
+        });
+        alert.present().then(function () {
+            _this.RadioOpen = true;
+        });
+    };
+    ControlPage.prototype.ConectarBlu = function () {
     };
     ControlPage.prototype.enviarDados2 = function () {
         var alert = this.alertCtrl.create({
@@ -162,12 +209,11 @@ var ControlPage = /** @class */ (function () {
     };
     ControlPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-control',template:/*ion-inline-start:"D:\Users\I$ync\Downloads\ControleBracoRobotico-master\ControleBracoRobotico\src\pages\control\control.html"*/'<!--\n  Generated template for the ControlPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Control</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n  <h6> Informe os dados para controlar o Braço Mecânico: </h6>\n \n    <ion-list>\n\n        <ion-item>\n           \n          <ion-label floating>angulo.ex: 30 graus </ion-label>\n          <ion-input type="text"></ion-input>\n        </ion-item>\n      \n        <ion-item>\n          <ion-label floating>velocidade. ex: 25rpm</ion-label>\n          <ion-input type="text"></ion-input>\n        </ion-item>\n\n\n        <ion-item>\n            <ion-label floating>velocidade</ion-label>\n            <ion-input type="text"></ion-input>\n          </ion-item>\n\n        <ion-item>\n              <ion-label floating>velocidade</ion-label>\n              <ion-input type="text"></ion-input>\n         </ion-item>\n\n        <ion-item>\n                <ion-label floating>velocidade</ion-label>\n                <ion-input type="text"></ion-input>\n        </ion-item>\n\n        <ion-item>\n                  <ion-label floating>velocidade</ion-label>\n                  <ion-input type="text"></ion-input>\n       </ion-item>\n\n       <ion-item>\n                    <ion-label floating>velocidade</ion-label>\n                    <ion-input type="text"></ion-input>\n        </ion-item>\n       \n      \n      </ion-list>\n\n      \n    <button ion-button color="dark" style="text-align: center" outline (click) ="enviarDados()">Enviar</button>\n\n</ion-content>\n'/*ion-inline-end:"D:\Users\I$ync\Downloads\ControleBracoRobotico-master\ControleBracoRobotico\src\pages\control\control.html"*/,
+            selector: 'page-control',template:/*ion-inline-start:"D:\Users\I$ync\Documents\ROBOTICA\ControleBracoRobotico-master\Controle-Braco-Robotico\Controle-Braco-Robotico\ControleBracoRobotico\src\pages\control\control.html"*/'<!--\n  Generated template for the ControlPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n\n\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Controle</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content class="outer-content no-scroll"  >\n\n  \n    <ion-list>\n      <ion-list-header>\n        Cintura:\n        <ion-badge  item-end>{{ ((cintura == null? 0 : (cintura-10)/100)*100).toPrecision(3)+ "%"}}</ion-badge>\n      </ion-list-header>\n      <ion-item>\n        <label for="teste">aa</label>\n        <ion-range min="10" max="110" pin="true"  style=" color:black" [(ngModel)]="cintura">\n          <ion-icon range-left small>10</ion-icon>\n          <ion-icon range-right>110</ion-icon>\n        </ion-range>\n      </ion-item>\n    </ion-list>\n  \n    <ion-list>\n        <ion-list-header>\n          Ombro:\n          <ion-badge  item-end>{{ ((ombro == null? 0 : (ombro-50)/90)*100).toPrecision(3)+ "%"}}</ion-badge>\n        </ion-list-header>\n        <ion-item>\n          <ion-range min="50" max="140" pin="true"  style=" color:black"  [(ngModel)]="ombro">\n            <ion-icon range-left small>50</ion-icon>\n            <ion-icon range-right>140</ion-icon>\n          </ion-range>\n        </ion-item>\n      </ion-list>\n\n      <ion-list>\n          <ion-list-header>\n            Cotovelo:\n            <ion-badge  item-end>{{ ((cotovelo == null? 0 : (cotovelo-50)/120)*100).toPrecision(3)+ "%"}}</ion-badge>\n          </ion-list-header>\n          <ion-item>\n            <ion-range min="50" max="170" pin="true"  style=" color:black"  [(ngModel)]="cotovelo">\n              <ion-icon range-left small>50</ion-icon>\n              <ion-icon range-right>170</ion-icon>\n            </ion-range>\n          </ion-item>\n        </ion-list>\n  \n        <ion-list>\n            <ion-list-header>\n              Pulso Sobe-Desce:\n              <ion-badge  item-end>{{ ((pulso_bd == null? 0 : (pulso_bd-10)/140)*100).toPrecision(3)+ "%"}}</ion-badge>\n            </ion-list-header>\n            <ion-item>\n              <ion-range min="10" max="150" pin="true"  style=" color:black"  [(ngModel)]="pulso_bd">\n                <ion-icon range-left small>10</ion-icon>\n                <ion-icon range-right>150</ion-icon>\n              </ion-range>\n            </ion-item>\n          </ion-list>\n\n          <ion-list>\n              <ion-list-header>\n                Pulso Gira:\n                <ion-badge  item-end>{{ ((pulso_g == null? 0 : (pulso_g-10)/140)*100).toPrecision(3)+ "%"}}</ion-badge>\n              </ion-list-header>\n              <ion-item>\n                <ion-range min="10" max="150" pin="true"  style=" color:black"  [(ngModel)]="pulso_g">\n                  <ion-icon range-left small>10</ion-icon>\n                  <ion-icon range-right>150</ion-icon>\n                </ion-range>\n              </ion-item>\n            </ion-list>\n\n            <ion-list>\n                <ion-list-header>\n                  Garra:\n                  <ion-badge  item-end>{{ ((garra == null? 0 : (garra-80)/70)*100).toPrecision(3)+ "%"}}</ion-badge>\n                </ion-list-header>\n                <ion-item>\n                  <ion-range min="80" max="150" pin="true"  style=" color:black" [(ngModel)]="garra">\n                    <ion-icon range-left small>80</ion-icon>\n                    <ion-icon range-right>150</ion-icon>\n                  </ion-range>\n                </ion-item>\n              </ion-list>\n\n              <ion-list>\n                  <ion-list-header>\n                      Velocidade:\n                      <ion-badge  item-end>{{MostrarVelocidade()}}</ion-badge>\n                    </ion-list-header>\n                  <ion-item>\n                      <button ion-button block color="danger" (click)="VelocidadeVal()">Velocidade</button>\n                 </ion-item>\n                </ion-list>\n  \n    \n  </ion-content>\n  \n  <style>\n    ion-list + ion-list {\n      margin-top: 0;\n    }\n  </style>'/*ion-inline-end:"D:\Users\I$ync\Documents\ROBOTICA\ControleBracoRobotico-master\Controle-Braco-Robotico\Controle-Braco-Robotico\ControleBracoRobotico\src\pages\control\control.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__ionic_native_bluetooth_serial__["a" /* BluetoothSerial */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ionic_native_bluetooth_serial__["a" /* BluetoothSerial */]) === "function" && _d || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]])
     ], ControlPage);
     return ControlPage;
-    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=control.js.map
@@ -198,7 +244,7 @@ var HomePage = /** @class */ (function () {
     }
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"D:\Users\I$ync\Downloads\ControleBracoRobotico-master\ControleBracoRobotico\src\pages\home\home.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>Home</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <h2>Controlador de Braço Mecânico</h2>\n  <p>\n  Este aplicativo tem por finalidade controlar um braço mecânico através dos smartphones dos\n  usuários das plataformas android, iOS e Windows.\n  Para controlar o braço mecânico é necessários informar alguns dados que serão enviados\n  via bluetooth para o braço.\n  Sobre os dados a serem informados:  </p>\n  <ul>\n      <li> 1</li>\n      <li>2 </li>\n      <li>3 </li>\n      <li>4</li>\n </ul>\n\n  <p>\n  Após o usuário informar esses dados, deve-se clicar em enviar e observar a movimentação do braço conforme\n  os parâmetros informados.\n  </p>\n\n  <img src="/assets/imgs/img.png" class="logo">\n \n</ion-content>\n'/*ion-inline-end:"D:\Users\I$ync\Downloads\ControleBracoRobotico-master\ControleBracoRobotico\src\pages\home\home.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"D:\Users\I$ync\Documents\ROBOTICA\ControleBracoRobotico-master\Controle-Braco-Robotico\Controle-Braco-Robotico\ControleBracoRobotico\src\pages\home\home.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>Home</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding class="no-scroll">\n  <h2>Controlador de Braço Mecânico</h2>\n  <p>\n  Este aplicativo tem por finalidade controlar um braço mecânico através dos smartphones dos\n  usuários das plataformas android, iOS e Windows.\n  Para controlar o braço mecânico é necessários informar alguns dados que serão enviados\n  via bluetooth para o braço.\n </p>\n\n <img src="/assets/imgs/img.png"  height="230" width="230" class="logo">\n\n  <p>\n  Após o usuário informar esses dados, deve-se clicar em enviar e observar a movimentação do braço conforme\n  os parâmetros informados.\n  </p>\n\n</ion-content>\n'/*ion-inline-end:"D:\Users\I$ync\Documents\ROBOTICA\ControleBracoRobotico-master\Controle-Braco-Robotico\Controle-Braco-Robotico\ControleBracoRobotico\src\pages\home\home.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */]])
     ], HomePage);
@@ -325,7 +371,7 @@ var MyApp = /** @class */ (function () {
         });
     }
     MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"D:\Users\I$ync\Downloads\ControleBracoRobotico-master\ControleBracoRobotico\src\app\app.html"*/'<ion-nav [root]="rootPage"></ion-nav>\n'/*ion-inline-end:"D:\Users\I$ync\Downloads\ControleBracoRobotico-master\ControleBracoRobotico\src\app\app.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"D:\Users\I$ync\Documents\ROBOTICA\ControleBracoRobotico-master\Controle-Braco-Robotico\Controle-Braco-Robotico\ControleBracoRobotico\src\app\app.html"*/'<ion-nav [root]="rootPage"></ion-nav>\n'/*ion-inline-end:"D:\Users\I$ync\Documents\ROBOTICA\ControleBracoRobotico-master\Controle-Braco-Robotico\Controle-Braco-Robotico\ControleBracoRobotico\src\app\app.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
     ], MyApp);
