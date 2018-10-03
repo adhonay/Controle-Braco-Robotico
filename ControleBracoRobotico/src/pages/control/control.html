@@ -107,7 +107,19 @@
                  </ion-item>
                 </ion-list>
   
-    
+                <ion-list>
+                  <ion-list-header>
+                      Domínio Ip:
+                    </ion-list-header>
+                  <ion-item>
+                    <input type="text"  id="adhonay" [(ngModel)]="ip">
+                    <button ion-button class="BotaoEnviar" color="secondary" (click)="enviarDados()">Enviar</button>
+                 </ion-item>
+                </ion-list>
+                
+                
+
+
   </ion-content>
   
   <style>

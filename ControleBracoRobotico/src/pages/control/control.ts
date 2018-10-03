@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-// import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
+import { HTTP } from '@ionic-native/http';
 import { AlertController } from 'ionic-angular';
-// import { NgModel } from '@angular/forms';
+import { NgModel } from '@angular/forms';
 
 /**
  * Generated class for the ControlPage page.
@@ -18,34 +18,61 @@ import { AlertController } from 'ionic-angular';
 })
 export class ControlPage {
 
- cintura: number;
- ombro: number;
- cotovelo: number;
- pulso_bd: number;
- pulso_g: number;
- garra: number;
- velocidade: number;
+ cintura: any;
+ ombro: any;
+ cotovelo: any;
+ pulso_bd: any;
+ pulso_g: any;
+ garra: any;
+ velocidade: any;
  RadioOpen: boolean;
-
+ ip: any;
+ 
   onChange(ev: any) {
     console.log('Changed', ev);
   }
-
-  // ,public bluetoothSerial: BluetoothSerial
-  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController) {
+  debugger;
+  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, private http : HTTP) {
   }
 
+  
   ionViewDidLoad() {
     console.log('ionViewDidLoad ControlPage');
   }
+  
+  
+  enviarDados() {
+   
+    const options = {
+      cintura: this.cintura === undefined? 0 : this.cintura,
+      ombro: this.ombro === undefined? 0: this.ombro,
+      cotovelo: this.cotovelo === undefined? 0 : this.cotovelo,
+      pulso_bd: this.pulso_bd === undefined? 0 : this.pulso_bd,
+      pulso_g: this.pulso_g === undefined? 0 : this.pulso_g,
+      garra: this.garra === undefined? 0: this.garra,
+      velocidade: this.velocidade === undefined? 0 : this.velocidade,
+      ip: this.ip === undefined ? "" : this.ip
+    };
 
+    var parametroFinal = options.cintura + "|" + options.ombro + "|" + options.cotovelo + "|" + options.pulso_bd + "|" + options.pulso_g + "|" + options.garra + "|" + options.velocidade;
+    
+    
+    this.http.get(this.ip+"/", options, function(response) {
+      // prints 403
+      console.log(response.status);
+    
+      //prints Permission denied
+      console.log(response.error);
+    });
+
+  }
   MostrarVelocidade(){
     var v = this.velocidade;
 
     if(v != null){
-      if(v == 1){
+      if(v == "1"){
           return "Lenta";
-      }else if (v == 2){
+      }else if (v == "2"){
          return "Média";
       }else{
         return "Rápida";
@@ -93,66 +120,6 @@ export class ControlPage {
     alert.present().then(() => {
       this.RadioOpen = true;
     });
-  }
-
-  ConectarBlu(){
-
-
-  }
-
-
-
-
-  enviarDados2() {
-    
-    let alert = this.alertCtrl.create({
-      title: 'Low battery',
-      subTitle: '10% of battery remaining',
-      buttons: ['Dismiss']
-    });
-    alert.present();
-  
-
-      // var data = new Uint8Array(6);
-      // data[0] = 0x00;
-      // data[1] = 0x06;
-      // data[2] = 0xFD;
-      // data[3] = 0x00;
-      // data[4] = 0xA0;
-      // data[5] = 0x91;
-
-      // bluetoothSerial.subscribeRawData(function (data) {
-      //     var bytes = new Uint8Array(data);
-      //     if (bytes.length == 25) {
-      //         var hexa = utilService.Uint8ArrayToHex(bytes);
-      //         console.log(hexa);
-      //     }
-      //     console.log(bytes);
-      // }, function (error) { alert(JSON.stringify(error)); });
-
-      // $cordovaBluetoothSerial.clear().then(
-      //     function (success) {
-      //         $cordovaBluetoothSerial.write(data).then(
-      //             function (success) {
-
-      //             },
-      //             function (err) {
-      //                 $scope.showAlert = function () {
-      //                     var alertPopup = $ionicPopup.alert({
-      //                         title: 'Erreur Write : ',
-      //                         template: JSON.stringify(err)
-      //                     });
-      //                     alertPopup.then(function (res) {
-      //                     });
-      //                 };
-      //             }
-      //         );
-      //     },
-      //     function (err) {
-      //         var test = err;
-      //     }
-      // );
-
   }
 
 }
