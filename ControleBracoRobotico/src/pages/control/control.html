@@ -98,22 +98,24 @@
               </ion-list>
 
               <ion-list>
-                  <ion-list-header>
-                      Velocidade:
-                      <ion-badge  item-end>{{MostrarVelocidade()}}</ion-badge>
-                    </ion-list-header>
-                  <ion-item>
-                      <button ion-button block color="danger" (click)="VelocidadeVal()">Velocidade</button>
-                 </ion-item>
-                </ion-list>
-  
+                <ion-list-header>
+                  Velocidade:
+                  <ion-badge item-end color="danger">{{MostrarVelocidade() == "" ? "Lenta" : MostrarVelocidade()}}</ion-badge>
+                </ion-list-header>
+                <ion-item>
+                  <ion-range min="0" max="2" step="1" snaps="true" [(ngModel)]="velocidade" >
+                    <ion-icon range-left small color="secondary" name="remove"></ion-icon>
+                    <ion-icon range-right color="danger" name="add"></ion-icon>
+                  </ion-range>
+                </ion-item>
+             
+              </ion-list>
+              
                 <ion-list>
-                  <ion-list-header>
-                      Domínio Ip:
-                    </ion-list-header>
+                    
                   <ion-item>
-                    <input type="text"  id="adhonay" [(ngModel)]="ip">
-                    <button ion-button class="BotaoEnviar" color="secondary" (click)="enviarDados()">Enviar</button>
+                    <button ion-button round small color="dark" (click)="dominio()">Domínio</button> 
+                    <button ion-button round small color="secondary" (click)="enviarDados()">Enviar</button>
                  </ion-item>
                 </ion-list>
                 
