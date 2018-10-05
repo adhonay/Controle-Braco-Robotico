@@ -115,6 +115,7 @@ var ControlPage = /** @class */ (function () {
     };
     ControlPage.prototype.enviarDados = function () {
         var _this = this;
+        //constante que recebe os valores do front, caso  o usuario não modificar o valor , o defaut e o valor minimo do angulo
         var options = {
             cintura: this.cintura === undefined ? 10 : this.cintura,
             ombro: this.ombro === undefined ? 50 : this.ombro,
@@ -126,30 +127,31 @@ var ControlPage = /** @class */ (function () {
             ip: this.ip === undefined ? "" : this.ip
         };
         if (options.ip === "") {
-            var alert_1 = this.alertCtrl.create({
+            var alert = this.alertCtrl.create({
                 title: 'Domínio não preencido',
                 buttons: ['OK']
             });
-            alert_1.present();
+            alert.present();
         }
         else {
+            //variavel que trata os valores recebido do front(em tempo real) 
             var parametroFinal = options.cintura + "|" + options.ombro + "|" + options.cotovelo + "|" + options.pulso_bd + "|" + options.pulso_g + "|" + options.garra + "|" + options.velocidade;
             debugger;
+            //objeto que faz o get, primeiro paramentro e a url, segundo e corpo que esta vazio, terceira e função que retorna um alert caso deu certo ou errado. 
+            //ESSE OBJETO VAI FICAR DENTRO DE UMA REPETIÇÃO SEM O ALERT QUE NO CASO E O TERCEIRO PARAMETRO PRA NÃO FICAR MOSTRANDO TODA HORA QUE FOI ENVIADO COM SUCESSO.
+            // ESSE LOOP VAI TER O TAMANHO DO NUMERO DE SEQUENCIAS ADICIONADA EM UMA LISTA MOSTADA PELA VARIAVEL "parametroFinal" onde cada posicao e uma combinação
+            // e oque vai mudar nesse objeto Promise vai ser em vez de ser "parametrofinal" ser uma posicao da lista em questão. o resto o get vai ser executado sozinho.
+            //não esquecer de dar um tempo de espera pra cada vez que o loop executa o get !
             return new Promise(function (resolve, reject) {
                 _this.http.get(options.ip + "/request/" + parametroFinal + "|255", {})
                     .toPromise()
                     .then(function (response) {
-                    console.log('API Response : ', response.json());
-                    var alert = _this.alertCtrl.create({ title: response.json() });
+                    var alert = _this.alertCtrl.create({ title: 'Sequencia enviada com sucesso!', buttons: ['OK'] });
                     alert.present();
-                    resolve(response.json());
                 })
                     .catch(function (error) {
-                    var alert = _this.alertCtrl.create({ title: error.status });
+                    var alert = _this.alertCtrl.create({ title: 'Erro ao enviar sequencia!', buttons: ['OK'] });
                     alert.present();
-                    console.error('API Error : ', error.status);
-                    console.error('API Error : ', JSON.stringify(error));
-                    reject(error.json());
                 });
             });
         }
@@ -204,9 +206,10 @@ var ControlPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-control',template:/*ion-inline-start:"D:\Users\I$ync\Documents\ROBOTICA\ControleBracoRobotico-master\Controle-Braco-Robotico\Controle-Braco-Robotico\ControleBracoRobotico\src\pages\control\control.html"*/'<!--\n  Generated template for the ControlPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n\n\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Controle</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content class="outer-content no-scroll"  >\n\n  \n    <ion-list>\n      <ion-list-header>\n        Cintura:\n        <ion-badge  item-end>{{ ((cintura == null? 0 : (cintura-10)/100)*100).toPrecision(3)+ "%"}}</ion-badge>\n      </ion-list-header>\n      <ion-item>\n        <label for="teste">aa</label>\n        <ion-range min="10" max="110" pin="true"  style=" color:black" [(ngModel)]="cintura">\n          <ion-icon range-left small>10</ion-icon>\n          <ion-icon range-right>110</ion-icon>\n        </ion-range>\n      </ion-item>\n    </ion-list>\n  \n    <ion-list>\n        <ion-list-header>\n          Ombro:\n          <ion-badge  item-end>{{ ((ombro == null? 0 : (ombro-50)/90)*100).toPrecision(3)+ "%"}}</ion-badge>\n        </ion-list-header>\n        <ion-item>\n          <ion-range min="50" max="140" pin="true"  style=" color:black"  [(ngModel)]="ombro">\n            <ion-icon range-left small>50</ion-icon>\n            <ion-icon range-right>140</ion-icon>\n          </ion-range>\n        </ion-item>\n      </ion-list>\n\n      <ion-list>\n          <ion-list-header>\n            Cotovelo:\n            <ion-badge  item-end>{{ ((cotovelo == null? 0 : (cotovelo-50)/120)*100).toPrecision(3)+ "%"}}</ion-badge>\n          </ion-list-header>\n          <ion-item>\n            <ion-range min="50" max="170" pin="true"  style=" color:black"  [(ngModel)]="cotovelo">\n              <ion-icon range-left small>50</ion-icon>\n              <ion-icon range-right>170</ion-icon>\n            </ion-range>\n          </ion-item>\n        </ion-list>\n  \n        <ion-list>\n            <ion-list-header>\n              Pulso Sobe-Desce:\n              <ion-badge  item-end>{{ ((pulso_bd == null? 0 : (pulso_bd-10)/140)*100).toPrecision(3)+ "%"}}</ion-badge>\n            </ion-list-header>\n            <ion-item>\n              <ion-range min="10" max="150" pin="true"  style=" color:black"  [(ngModel)]="pulso_bd">\n                <ion-icon range-left small>10</ion-icon>\n                <ion-icon range-right>150</ion-icon>\n              </ion-range>\n            </ion-item>\n          </ion-list>\n\n          <ion-list>\n              <ion-list-header>\n                Pulso Gira:\n                <ion-badge  item-end>{{ ((pulso_g == null? 0 : (pulso_g-10)/140)*100).toPrecision(3)+ "%"}}</ion-badge>\n              </ion-list-header>\n              <ion-item>\n                <ion-range min="10" max="150" pin="true"  style=" color:black"  [(ngModel)]="pulso_g">\n                  <ion-icon range-left small>10</ion-icon>\n                  <ion-icon range-right>150</ion-icon>\n                </ion-range>\n              </ion-item>\n            </ion-list>\n\n            <ion-list>\n                <ion-list-header>\n                  Garra:\n                  <ion-badge  item-end>{{ ((garra == null? 0 : (garra-80)/70)*100).toPrecision(3)+ "%"}}</ion-badge>\n                </ion-list-header>\n                <ion-item>\n                  <ion-range min="80" max="150" pin="true"  style=" color:black" [(ngModel)]="garra">\n                    <ion-icon range-left small>80</ion-icon>\n                    <ion-icon range-right>150</ion-icon>\n                  </ion-range>\n                </ion-item>\n              </ion-list>\n\n              <ion-list>\n                <ion-list-header>\n                  Velocidade:\n                  <ion-badge item-end color="danger">{{MostrarVelocidade() == "" ? "Lenta" : MostrarVelocidade()}}</ion-badge>\n                </ion-list-header>\n                <ion-item>\n                  <ion-range min="0" max="2" step="1" snaps="true" [(ngModel)]="velocidade" >\n                    <ion-icon range-left small color="secondary" name="remove"></ion-icon>\n                    <ion-icon range-right color="danger" name="add"></ion-icon>\n                  </ion-range>\n                </ion-item>\n             \n              </ion-list>\n              \n                <ion-list>\n                    \n                  <ion-item>\n                    <button ion-button round small color="dark" (click)="dominio()">Domínio</button> \n                    <button ion-button round small color="secondary" (click)="enviarDados()">Enviar</button>\n                 </ion-item>\n                </ion-list>\n                \n                \n\n\n  </ion-content>\n  \n  <style>\n    ion-list + ion-list {\n      margin-top: 0;\n    }\n  </style>'/*ion-inline-end:"D:\Users\I$ync\Documents\ROBOTICA\ControleBracoRobotico-master\Controle-Braco-Robotico\Controle-Braco-Robotico\ControleBracoRobotico\src\pages\control\control.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Http */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Http */]) === "function" && _d || Object])
     ], ControlPage);
     return ControlPage;
+    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=control.js.map
