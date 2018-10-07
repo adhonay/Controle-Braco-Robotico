@@ -5,14 +5,6 @@ import { Http } from '@angular/http';
 import { AlertController } from 'ionic-angular';
 // import { NgModel } from '@angular/forms';
 
-/**
- * Generated class for the ControlPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-
 @Component({
   selector: 'page-control',
   templateUrl: 'control.html',
@@ -32,6 +24,10 @@ export class ControlPage {
  RadioOpen: boolean;
  ip: any;
  
+ contadorPosicao: any = 0;
+
+
+ 
   onChange(ev: any) {
     console.log('Changed', ev);
   }
@@ -42,6 +38,7 @@ export class ControlPage {
   
   ionViewDidLoad() {
     console.log('ionViewDidLoad ControlPage');
+    this.contadorPosicao = 0;
   }
   
   
@@ -140,5 +137,9 @@ export class ControlPage {
 
     alert.present();
   }
-
+  increaseContador() {
+   return this.contadorPosicao != 6 ?  
+          this.contadorPosicao ++ 
+          : this.contadorPosicao;
+  }
 }

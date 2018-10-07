@@ -1,11 +1,3 @@
-<!--
-  Generated template for the ControlPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-
-
 <ion-header>
 
   <ion-navbar>
@@ -15,117 +7,136 @@
 </ion-header>
 
 
-<ion-content class="outer-content no-scroll"  >
+<ion-content class="outer-content no-scroll">
+  <ion-list>
+    <ion-list-header>
+      Cintura:
+      <ion-badge item-end>{{ ((cintura == null? 0 : (cintura-10)/100)*100).toPrecision(3)+ "%"}}</ion-badge>
+    </ion-list-header>
+    <ion-item>
+      <label for="teste">aa</label>
+      <ion-range min="10" max="110" pin="true" style=" color:black" [(ngModel)]="cintura">
+        <ion-icon range-left small>10</ion-icon>
+        <ion-icon range-right>110</ion-icon>
+      </ion-range>
+    </ion-item>
+  </ion-list>
 
+  <ion-list>
+    <ion-list-header>
+      Ombro:
+      <ion-badge item-end>{{ ((ombro == null? 0 : (ombro-50)/90)*100).toPrecision(3)+ "%"}}</ion-badge>
+    </ion-list-header>
+    <ion-item>
+      <ion-range min="50" max="140" pin="true" style=" color:black" [(ngModel)]="ombro">
+        <ion-icon range-left small>50</ion-icon>
+        <ion-icon range-right>140</ion-icon>
+      </ion-range>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      Cotovelo:
+      <ion-badge item-end>{{ ((cotovelo == null? 0 : (cotovelo-50)/120)*100).toPrecision(3)+ "%"}}</ion-badge>
+    </ion-list-header>
+    <ion-item>
+      <ion-range min="50" max="170" pin="true" style=" color:black" [(ngModel)]="cotovelo">
+        <ion-icon range-left small>50</ion-icon>
+        <ion-icon range-right>170</ion-icon>
+      </ion-range>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      Pulso Sobe-Desce:
+      <ion-badge item-end>{{ ((pulso_bd == null? 0 : (pulso_bd-10)/140)*100).toPrecision(3)+ "%"}}</ion-badge>
+    </ion-list-header>
+    <ion-item>
+      <ion-range min="10" max="150" pin="true" style=" color:black" [(ngModel)]="pulso_bd">
+        <ion-icon range-left small>10</ion-icon>
+        <ion-icon range-right>150</ion-icon>
+      </ion-range>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      Pulso Gira:
+      <ion-badge item-end>{{ ((pulso_g == null? 0 : (pulso_g-10)/140)*100).toPrecision(3)+ "%"}}</ion-badge>
+    </ion-list-header>
+    <ion-item>
+      <ion-range min="10" max="150" pin="true" style=" color:black" [(ngModel)]="pulso_g">
+        <ion-icon range-left small>10</ion-icon>
+        <ion-icon range-right>150</ion-icon>
+      </ion-range>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      Garra:
+      <ion-badge item-end>{{ ((garra == null? 0 : (garra-80)/70)*100).toPrecision(3)+ "%"}}</ion-badge>
+    </ion-list-header>
+    <ion-item>
+      <ion-range min="80" max="150" pin="true" style=" color:black" [(ngModel)]="garra">
+        <ion-icon range-left small>80</ion-icon>
+        <ion-icon range-right>150</ion-icon>
+      </ion-range>
+    </ion-item>
+    <ion-item>
+      <button ion-button full outline (click)="increaseContador()">Gravar posição</button> <br>
+    
+     <p class = "botoes" *ngIf="contadorPosicao != 6 ">
+        {{contadorPosicao}} de 6 posições gravadas.
+      </p>
+      <p class ="botoes" *ngIf="contadorPosicao == 6 ">
+          Selecione a velocidade e clique em Play! 
+        </p>
+    
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      Velocidade:
+      <ion-badge item-end color="danger">{{MostrarVelocidade() == "" ? "Lenta" : MostrarVelocidade()}}</ion-badge>
+    </ion-list-header>
+    <ion-item>
+      <ion-range min="0" max="2" step="1" snaps="true" [(ngModel)]="velocidade">
+        <ion-icon range-left small color="secondary" name="remove"></ion-icon>
+        <ion-icon range-right color="danger" name="add"></ion-icon>
+      </ion-range>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-list>
+
+  <ion-item>
+      <!-- <button ion-button round small color="dark" (click)="dominio()">Domínio</button> -->
+      <!-- <button ion-button round small color = "secondary">Gravar posição</button> -->
+     <!-- <button ion-button medium icon-only color="secondary" >
+        <ion-icon name="cloud-upload"></ion-icon>
+      </button> -->
+      <div class="botoes">
+
+      <button ion-button medium icon-only color="dark" round large>
+        <ion-icon name="play"></ion-icon>
+      </button>
+      </div>
+      <!-- <button ion-button medium icon-only color="secondary" >
+        <ion-icon name="search"></ion-icon>
+      </button> -->
+      <!-- <button ion-button round small color="secondary" (click)="enviarDados()">Executar sequência</button> -->
+    </ion-item>
   
-    <ion-list>
-      <ion-list-header>
-        Cintura:
-        <ion-badge  item-end>{{ ((cintura == null? 0 : (cintura-10)/100)*100).toPrecision(3)+ "%"}}</ion-badge>
-      </ion-list-header>
-      <ion-item>
-        <label for="teste">aa</label>
-        <ion-range min="10" max="110" pin="true"  style=" color:black" [(ngModel)]="cintura">
-          <ion-icon range-left small>10</ion-icon>
-          <ion-icon range-right>110</ion-icon>
-        </ion-range>
-      </ion-item>
-    </ion-list>
-  
-    <ion-list>
-        <ion-list-header>
-          Ombro:
-          <ion-badge  item-end>{{ ((ombro == null? 0 : (ombro-50)/90)*100).toPrecision(3)+ "%"}}</ion-badge>
-        </ion-list-header>
-        <ion-item>
-          <ion-range min="50" max="140" pin="true"  style=" color:black"  [(ngModel)]="ombro">
-            <ion-icon range-left small>50</ion-icon>
-            <ion-icon range-right>140</ion-icon>
-          </ion-range>
-        </ion-item>
-      </ion-list>
+  </ion-list>
+</ion-content>
 
-      <ion-list>
-          <ion-list-header>
-            Cotovelo:
-            <ion-badge  item-end>{{ ((cotovelo == null? 0 : (cotovelo-50)/120)*100).toPrecision(3)+ "%"}}</ion-badge>
-          </ion-list-header>
-          <ion-item>
-            <ion-range min="50" max="170" pin="true"  style=" color:black"  [(ngModel)]="cotovelo">
-              <ion-icon range-left small>50</ion-icon>
-              <ion-icon range-right>170</ion-icon>
-            </ion-range>
-          </ion-item>
-        </ion-list>
-  
-        <ion-list>
-            <ion-list-header>
-              Pulso Sobe-Desce:
-              <ion-badge  item-end>{{ ((pulso_bd == null? 0 : (pulso_bd-10)/140)*100).toPrecision(3)+ "%"}}</ion-badge>
-            </ion-list-header>
-            <ion-item>
-              <ion-range min="10" max="150" pin="true"  style=" color:black"  [(ngModel)]="pulso_bd">
-                <ion-icon range-left small>10</ion-icon>
-                <ion-icon range-right>150</ion-icon>
-              </ion-range>
-            </ion-item>
-          </ion-list>
-
-          <ion-list>
-              <ion-list-header>
-                Pulso Gira:
-                <ion-badge  item-end>{{ ((pulso_g == null? 0 : (pulso_g-10)/140)*100).toPrecision(3)+ "%"}}</ion-badge>
-              </ion-list-header>
-              <ion-item>
-                <ion-range min="10" max="150" pin="true"  style=" color:black"  [(ngModel)]="pulso_g">
-                  <ion-icon range-left small>10</ion-icon>
-                  <ion-icon range-right>150</ion-icon>
-                </ion-range>
-              </ion-item>
-            </ion-list>
-
-            <ion-list>
-                <ion-list-header>
-                  Garra:
-                  <ion-badge  item-end>{{ ((garra == null? 0 : (garra-80)/70)*100).toPrecision(3)+ "%"}}</ion-badge>
-                </ion-list-header>
-                <ion-item>
-                  <ion-range min="80" max="150" pin="true"  style=" color:black" [(ngModel)]="garra">
-                    <ion-icon range-left small>80</ion-icon>
-                    <ion-icon range-right>150</ion-icon>
-                  </ion-range>
-                </ion-item>
-              </ion-list>
-
-              <ion-list>
-                <ion-list-header>
-                  Velocidade:
-                  <ion-badge item-end color="danger">{{MostrarVelocidade() == "" ? "Lenta" : MostrarVelocidade()}}</ion-badge>
-                </ion-list-header>
-                <ion-item>
-                  <ion-range min="0" max="2" step="1" snaps="true" [(ngModel)]="velocidade" >
-                    <ion-icon range-left small color="secondary" name="remove"></ion-icon>
-                    <ion-icon range-right color="danger" name="add"></ion-icon>
-                  </ion-range>
-                </ion-item>
-             
-              </ion-list>
-              
-                <ion-list>
-                    
-                  <ion-item>
-                    <button ion-button round small color="dark" (click)="dominio()">Domínio</button> 
-                    <button ion-button round small color="secondary" (click)="enviarDados()">Enviar</button>
-                 </ion-item>
-                </ion-list>
-                
-                
-
-
-  </ion-content>
-  
-  <style>
-    ion-list + ion-list {
-      margin-top: 0;
-    }
-  </style>
+<style>
+  ion-list+ion-list {
+    margin-top: 0;
+  }
+</style>
