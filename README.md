@@ -1,2 +1,3 @@
 # Controle-Braco-Robotico
-Projeto Robótica onde controla através de um aplicativo desenvolvido em ionic/ts para movimentar um braço robótico por comunicação Bluetooth
+Projeto Robótica.
+Controle, através de um aplicativo desenvolvido em Ionic, de movimentos um braço robótico por comunicação Bluetooth
