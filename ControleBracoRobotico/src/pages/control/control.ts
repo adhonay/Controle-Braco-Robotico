@@ -23,29 +23,28 @@ export class ControlPage {
  velocidade: any;
  RadioOpen: boolean;
  ip: any;
- 
+
+ //contador de posicoes salvas
  contadorPosicao: any = 0;
 
-
+ //vetor para armazenar sequencia de posicoes
+ sequencia: any[];
+ posicao: string;
  
   onChange(ev: any) {
-    console.log('Changed', ev);
   }
-  debugger;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, public http: Http) {
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, 
+              private alertCtrl: AlertController, public http: Http) {
+                this.sequencia = [];
   }
 
   
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ControlPage');
-    this.contadorPosicao = 0;
-  }
-  
-  
-  enviarDados() {
-   
-    //constante que recebe os valores do front, caso  o usuario não modificar o valor , o defaut e o valor minimo do angulo
-    const options = {
+  }  
+
+  getOpcoes() {
+    return  {
       cintura: this.cintura === undefined? 10 : this.cintura,
       ombro: this.ombro === undefined? 50: this.ombro,
       cotovelo: this.cotovelo === undefined? 50 : this.cotovelo,
@@ -55,7 +54,10 @@ export class ControlPage {
       velocidade: this.velocidade === undefined? 0 : this.velocidade,
       ip: this.ip === undefined ? "" : this.ip
     };
-    
+  }
+  enviarDados() {
+   const options = this.getOpcoes();
+
     if(options.ip === ""){// se o ip for vazio mostrar esse alerta.
       let alert = this.alertCtrl.create({
         title: 'Domínio não preencido',
@@ -64,37 +66,44 @@ export class ControlPage {
       alert.present();
     }else{
       //variavel que trata os valores recebido do front(em tempo real) 
-     var parametroFinal = options.cintura + "|" + options.ombro + "|" + options.cotovelo + "|" + options.pulso_bd + "|" + options.pulso_g + "|" + options.garra + "|" + options.velocidade;
+    //  var parametroFinal = options.cintura + "|" + options.ombro + "|" + options.cotovelo + "|" + options.pulso_bd + "|" + options.pulso_g + "|" + options.garra + "|" + options.velocidade;
     
-     debugger; 
      //objeto que faz o get, primeiro paramentro e a url, segundo e corpo que esta vazio, terceira e função que retorna um alert caso deu certo ou errado. 
 
      //ESSE OBJETO VAI FICAR DENTRO DE UMA REPETIÇÃO SEM O ALERT QUE NO CASO E O TERCEIRO PARAMETRO PRA NÃO FICAR MOSTRANDO TODA HORA QUE FOI ENVIADO COM SUCESSO.
      // ESSE LOOP VAI TER O TAMANHO DO NUMERO DE SEQUENCIAS ADICIONADA EM UMA LISTA MOSTADA PELA VARIAVEL "parametroFinal" onde cada posicao e uma combinação
      // e oque vai mudar nesse objeto Promise vai ser em vez de ser "parametrofinal" ser uma posicao da lista em questão. o resto o get vai ser executado sozinho.
      //não esquecer de dar um tempo de espera pra cada vez que o loop executa o get !
-      return new Promise((resolve, reject) => {
+     for(let i =0;i<6;i++){
+     var  parametroFinal = this.sequencia[i] + "|" + options.velocidade;
+     new Promise((resolve, reject) => {
         this.http.get(options.ip+ "/request/" + parametroFinal + "|255", {})
         .toPromise()
         .then((response) =>
         {
-          
-          let alert = this.alertCtrl.create({title: 'Sequencia enviada com sucesso!',buttons: ['OK']});
-          alert.present();
+          if( i == 0 ){
+          this.showMsg("Sequencia enviada com sucesso! Iniciando movimentação");
+          }
         })
         .catch((error) =>
         {
-          let alert = this.alertCtrl.create({title: 'Erro ao enviar sequencia!',buttons: ['OK']});
-          alert.present();
+          this.showMsg('Erro ao enviar sequencia!');
+          
         });
       });
+    }
   }
+}
+
+
+showMsg(msg: string) {
+  let alert = this.alertCtrl.create({title: msg, buttons: ['OK']});
+  alert.present();
 }
   MostrarVelocidade(){//mostrar texto front de velocidade no front
     var v = this.velocidade;
 
-    if(v != null){
-    
+    if(v != null){    
       if(v == "0"){
           return "Lenta";
       }else if (v == "1"){
@@ -136,6 +145,19 @@ export class ControlPage {
     });
 
     alert.present();
+  }
+
+/* Salvar uma posicao do braco na sequencia.
+ */
+  gravarPosicao() {
+    if (this.contadorPosicao != 6) {
+        const options = this.getOpcoes();
+        var posicao = options.cintura + "|" + options.ombro + "|" + options.cotovelo + 
+                      "|" + options.pulso_bd + "|" + options.pulso_g + "|" + options.garra;
+        this.sequencia.push(posicao);
+
+        this.increaseContador();
+    }
   }
   increaseContador() {
    return this.contadorPosicao != 6 ?  

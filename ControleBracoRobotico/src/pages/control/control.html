@@ -86,7 +86,7 @@
       </ion-range>
     </ion-item>
     <ion-item>
-      <button ion-button full outline (click)="increaseContador()">Gravar posição</button> <br>
+      <button ion-button full outline (click)="gravarPosicao()">Gravar posição</button> <br>
     
      <p class = "botoes" *ngIf="contadorPosicao != 6 ">
         {{contadorPosicao}} de 6 posições gravadas.
@@ -122,7 +122,7 @@
       </button> -->
       <div class="botoes">
 
-      <button ion-button medium icon-only color="dark" round large>
+      <button ion-button medium icon-only color="dark" round large (click)="enviarDados()">
         <ion-icon name="play"></ion-icon>
       </button>
       </div>
