@@ -25681,6 +25681,17 @@ ion-navbar.toolbar {
   margin-top: -2vh;
 }
 
+.botoes {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
 .no-scroll .scroll-content {
   overflow: auto;
 }

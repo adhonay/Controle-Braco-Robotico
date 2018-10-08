@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-// import { HTTP } from '@ionic-native/http';
+import { NavController, NavParams, Events } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { AlertController } from 'ionic-angular';
-// import { NgModel } from '@angular/forms';
+import 'rxjs/add/operator/timeout';
+
+// import { ResourceLoader } from '@angular/compiler';
+
 
 @Component({
   selector: 'page-control',
@@ -30,18 +32,22 @@ export class ControlPage {
  //vetor para armazenar sequencia de posicoes
  sequencia: any[];
  posicao: string;
+ Dados: string;
  
   onChange(ev: any) {
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
+  constructor(public navCtrl: NavController, public navParams: NavParams, private events: Events,
               private alertCtrl: AlertController, public http: Http) {
-                this.sequencia = [];
+              this.sequencia = [];
+                // receber dados do ip, da outra tab
+              events.subscribe('data:created', (data) => {
+                  this.ip = data;
+              });
+        }
+  //sempre q entrar na view mostrar tudo:
+  ionViewDidEnter(){
   }
-
-  
-  ionViewDidLoad() {
-  }  
 
   getOpcoes() {
     return  {
@@ -74,27 +80,44 @@ export class ControlPage {
      // ESSE LOOP VAI TER O TAMANHO DO NUMERO DE SEQUENCIAS ADICIONADA EM UMA LISTA MOSTADA PELA VARIAVEL "parametroFinal" onde cada posicao e uma combinação
      // e oque vai mudar nesse objeto Promise vai ser em vez de ser "parametrofinal" ser uma posicao da lista em questão. o resto o get vai ser executado sozinho.
      //não esquecer de dar um tempo de espera pra cada vez que o loop executa o get !
-     for(let i =0;i<6;i++){
-     var  parametroFinal = this.sequencia[i] + "|" + options.velocidade;
+     
+     for(let i =0;i< this.sequencia.length ;i++){
+     var  parametroFinal = this.sequencia[i];
      new Promise((resolve, reject) => {
+      
         this.http.get(options.ip+ "/request/" + parametroFinal + "|255", {})
         .toPromise()
         .then((response) =>
         {
-          if( i == 0 ){
+          this.delay(3*1000);
+          if( i == this.sequencia.length -1 ){
           this.showMsg("Sequencia enviada com sucesso! Iniciando movimentação");
           }
         })
         .catch((error) =>
         {
+          if(i == this.sequencia.length -1){
           this.showMsg('Erro ao enviar sequencia!');
+          }
           
         });
       });
+      
     }
   }
 }
 
+async delay(ms: number) {
+   if(ms >= 2){
+    await new Promise(resolve => setTimeout(()=>resolve(), ms));
+   }else{
+    let alert = this.alertCtrl.create({
+      title: 'Valor minimo 2 segundos!',
+      buttons: ['OK']
+    });
+    alert.present();
+   }
+}
 
 showMsg(msg: string) {
   let alert = this.alertCtrl.create({title: msg, buttons: ['OK']});
@@ -153,10 +176,17 @@ showMsg(msg: string) {
     if (this.contadorPosicao != 6) {
         const options = this.getOpcoes();
         var posicao = options.cintura + "|" + options.ombro + "|" + options.cotovelo + 
-                      "|" + options.pulso_bd + "|" + options.pulso_g + "|" + options.garra;
+                      "|" + options.pulso_bd + "|" + options.pulso_g + "|" + options.garra + "|" + options.velocidade;
         this.sequencia.push(posicao);
 
         this.increaseContador();
+    }
+  }
+  removerPosicao() {
+    
+    if (this.sequencia.length >= 1) {
+        this.sequencia.shift();
+        this.contadorPosicao --;
     }
   }
   increaseContador() {

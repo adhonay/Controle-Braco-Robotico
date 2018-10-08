@@ -74,6 +74,7 @@
     </ion-item>
   </ion-list>
 
+
   <ion-list>
     <ion-list-header>
       Garra:
@@ -85,18 +86,8 @@
         <ion-icon range-right>150</ion-icon>
       </ion-range>
     </ion-item>
-    <ion-item>
-      <button ion-button full outline (click)="gravarPosicao()">Gravar posição</button> <br>
-    
-     <p class = "botoes" *ngIf="contadorPosicao != 6 ">
-        {{contadorPosicao}} de 6 posições gravadas.
-      </p>
-      <p class ="botoes" *ngIf="contadorPosicao == 6 ">
-          Selecione a velocidade e clique em Play! 
-        </p>
-    
-    </ion-item>
   </ion-list>
+
 
   <ion-list>
     <ion-list-header>
@@ -109,13 +100,23 @@
         <ion-icon range-right color="danger" name="add"></ion-icon>
       </ion-range>
     </ion-item>
+    <ion-item>
+      <button ion-button full outline (click)="gravarPosicao()">Gravar posição</button> <br>
+     <p class = "botoes" *ngIf="contadorPosicao != 6 ">
+        {{contadorPosicao}} de 6 Sequências gravadas.
+      </p>
+      <p class ="botoes" *ngIf="contadorPosicao == 6 ">
+          Máximo de sequência atingidas! 
+        </p>
+    <button ion-button full outline (click)="removerPosicao()">Remover posição</button> <br>
 
+    </ion-item>
   </ion-list>
 
   <ion-list>
 
   <ion-item>
-      <!-- <button ion-button round small color="dark" (click)="dominio()">Domínio</button> -->
+       <!-- <button ion-button round small color="dark" (click)="dominio()">Domínio</button>  -->
       <!-- <button ion-button round small color = "secondary">Gravar posição</button> -->
      <!-- <button ion-button medium icon-only color="secondary" >
         <ion-icon name="cloud-upload"></ion-icon>
