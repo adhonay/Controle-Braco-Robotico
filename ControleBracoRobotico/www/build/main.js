@@ -196,11 +196,6 @@ var ControlPage = /** @class */ (function () {
             var this_1 = this, parametroFinal;
             //variavel que trata os valores recebido do front(em tempo real) 
             //  var parametroFinal = options.cintura + "|" + options.ombro + "|" + options.cotovelo + "|" + options.pulso_bd + "|" + options.pulso_g + "|" + options.garra + "|" + options.velocidade;
-            //objeto que faz o get, primeiro paramentro e a url, segundo e corpo que esta vazio, terceira e função que retorna um alert caso deu certo ou errado. 
-            //ESSE OBJETO VAI FICAR DENTRO DE UMA REPETIÇÃO SEM O ALERT QUE NO CASO E O TERCEIRO PARAMETRO PRA NÃO FICAR MOSTRANDO TODA HORA QUE FOI ENVIADO COM SUCESSO.
-            // ESSE LOOP VAI TER O TAMANHO DO NUMERO DE SEQUENCIAS ADICIONADA EM UMA LISTA MOSTADA PELA VARIAVEL "parametroFinal" onde cada posicao e uma combinação
-            // e oque vai mudar nesse objeto Promise vai ser em vez de ser "parametrofinal" ser uma posicao da lista em questão. o resto o get vai ser executado sozinho.
-            //não esquecer de dar um tempo de espera pra cada vez que o loop executa o get !
             for (var i = 0; i < this.sequencia.length; i++) {
                 _loop_1(i);
             }
