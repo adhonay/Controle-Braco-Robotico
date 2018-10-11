@@ -102,37 +102,37 @@
     </ion-item>
     <ion-item>
       <button ion-button full outline (click)="gravarPosicao()">Gravar posição</button> <br>
-     <p class = "botoes" *ngIf="contadorPosicao != 6 ">
+      <p class="botoes" *ngIf="contadorPosicao != 6 ">
         {{contadorPosicao}} de 6 Sequências gravadas.
       </p>
-      <p class ="botoes" *ngIf="contadorPosicao == 6 ">
-          Máximo de sequência atingidas! 
-        </p>
-    <button ion-button full outline (click)="removerPosicao()">Remover posição</button> <br>
+      <p class="botoes" *ngIf="contadorPosicao == 6 ">
+        Máximo de sequência atingidas!
+      </p>
+      <button ion-button full outline (click)="removerPosicao()">Remover posição</button> <br>
 
     </ion-item>
   </ion-list>
 
   <ion-list>
 
-  <ion-item>
-       <!-- <button ion-button round small color="dark" (click)="dominio()">Domínio</button>  -->
+    <ion-item>
+      <!-- <button ion-button round small color="dark" (click)="dominio()">Domínio</button>  -->
       <!-- <button ion-button round small color = "secondary">Gravar posição</button> -->
-     <!-- <button ion-button medium icon-only color="secondary" >
+      <!-- <button ion-button medium icon-only color="secondary" >
         <ion-icon name="cloud-upload"></ion-icon>
       </button> -->
       <div class="botoes">
 
-      <button ion-button medium icon-only color="dark" round large (click)="enviarDados()">
-        <ion-icon name="play"></ion-icon>
-      </button>
+        <button ion-button medium icon-only color="dark" round large (click)="enviarDados()">
+          <ion-icon name="play"></ion-icon>
+        </button>
       </div>
       <!-- <button ion-button medium icon-only color="secondary" >
         <ion-icon name="search"></ion-icon>
       </button> -->
       <!-- <button ion-button round small color="secondary" (click)="enviarDados()">Executar sequência</button> -->
     </ion-item>
-  
+
   </ion-list>
 </ion-content>
 
